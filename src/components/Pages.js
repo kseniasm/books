@@ -1,37 +1,22 @@
 import React from "react";
-import Pagination from "react-bootstrap/Pagination";
 import { connect } from "react-redux";
-import { fetchBooks } from "../store/actions/booksActions";
-import NotFound from "./NotFound";
+import { fetchNextBooks } from "../store/actions/booksActions";
+import Pagination from "react-bootstrap/Pagination";
+import "./App.css";
 
 class Pages extends React.Component {
+  handleSubmit = pageNumber => {
+    let nextBookIndex = (pageNumber - 1) * this.props.pagination.booksPerPage;
 
- 
-  handleSubmit =  pageNumber => {
-
- 
-    let nextBookIndex = (pageNumber - 1) * 12; //12, 24
-
-  
-     this.props.fetchNextBooks("kitty", nextBookIndex);
-
+    this.props.fetchNextBooks(this.props.searchTerm, nextBookIndex);
   };
-  render() {
+
+  setPageNumbers = totalPages => {
     const { currentPage, numberOfPages } = this.props.pagination;
 
-    
-    console.log("pagination : ", this.props.pagination);
+    let pageNumbers = [];
 
-    const totalPages = Math.ceil(
-      this.props.pagination.totalBooks / this.props.pagination.bookPerPage
-    );
-
-    // Change page
-    const paginate = pageNumber => this.setState({ currentPage: pageNumber });
-
-    const pageNumbers = [];
-
-    if (currentPage >Math.floor(numberOfPages / 2)) {
+    if (currentPage > Math.floor(numberOfPages / 2)) {
       if (currentPage >= totalPages - Math.floor(numberOfPages / 2)) {
         for (let i = numberOfPages; i > 0; i--) {
           pageNumbers.push(totalPages - i + 1);
@@ -47,23 +32,46 @@ class Pages extends React.Component {
       }
     }
 
+    return pageNumbers;
+  };
+
+  render() {
+    const { currentPage } = this.props.pagination;
+
+    const totalPages = Math.ceil(
+      this.props.pagination.totalBooks / this.props.pagination.booksPerPage
+    );
+
+    const pageNumbers = this.setPageNumbers(totalPages);
+
     return (
-      <Pagination className="mt-5 justify-content-center " >
-        <Pagination.First onClick={() => this.handleSubmit(1)}/>
-        <Pagination.Prev disabled={currentPage === 1} onClick={() => this.handleSubmit(currentPage-1)}/>
+      <Pagination className="mt-5 justify-content-center ">
+        {/* <Pagination.First
+          disabled={currentPage === 1}
+          onClick={() => this.handleSubmit(1)}
+        /> */}
+        <Pagination.Prev
+          disabled={currentPage === 1}
+          onClick={() => this.handleSubmit(currentPage - 1)}
+        />
 
         {pageNumbers.map(number => (
           <Pagination.Item
-            active={currentPage === number}
             key={number}
-          
             onClick={() => this.handleSubmit(number)}
+            className={currentPage === number ? "active-page" : ""}
           >
             {number}
           </Pagination.Item>
         ))}
-        <Pagination.Next  disabled={currentPage === totalPages}  onClick={() => this.handleSubmit(currentPage+1)}/>
-        <Pagination.Last onClick={() => this.handleSubmit(totalPages)}/>
+        <Pagination.Next
+          disabled={currentPage === totalPages}
+          onClick={() => this.handleSubmit(currentPage + 1)}
+        />
+        {/* <Pagination.Last
+          disabled={currentPage === totalPages}
+          onClick={() => this.handleSubmit(totalPages)}
+        /> */}
       </Pagination>
     );
   }
@@ -72,14 +80,15 @@ class Pages extends React.Component {
 const mapStateToProps = state => {
   return {
     books: state.books,
-    pagination: state.pagination
+    pagination: state.pagination,
+    searchTerm: state.searchTerm
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchNextBooks: (title, nextBookIndex) =>
-      dispatch(fetchBooks(title, nextBookIndex))
+      dispatch(fetchNextBooks(title, nextBookIndex))
   };
 };
 

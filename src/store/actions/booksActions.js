@@ -1,4 +1,4 @@
-import { FETCH_BOOKS, UPDATE_PAGENATION, FETCH_BOOK } from "./actionTypes";
+import { FETCH_BOOKS, UPDATE_PAGENATION, FETCH_BOOK, UPDATE_SEARCH } from "./actionTypes";
 import googleBooks from "../../api/googleBooks";
 import {
   asyncActionStart,
@@ -9,13 +9,12 @@ import {
 export const fetchBook = id => async dispatch => {
   try {
     dispatch(asyncActionStart());
-      const response = await googleBooks.get(`/volumes/${id}`);
+    const response = await googleBooks.get(`/volumes/${id}`);
 
-      dispatch({ type: FETCH_BOOK, payload: response.data });
-      
-      dispatch(asyncActionFinish());
+    dispatch({ type: FETCH_BOOK, payload: response.data });
+
+    dispatch(asyncActionFinish());
   } catch (error) {
-   
     dispatch(asyncActionError());
     return error;
   }
@@ -34,28 +33,29 @@ export const fetchBooks = (title, firstBookIndex) => async (
     );
 
     if (!response.data.items) {
-      throw new Error("Couldn't find more books")
+      throw new Error("Couldn't find more books");
     }
-    dispatch({ type: FETCH_BOOKS, payload: response.data.items });
+     dispatch({ type: FETCH_BOOKS, payload: response.data.items });
 
     let numOfBooks = totalBooks || response.data.totalItems;
-    dispatch({
+     dispatch({
       type: UPDATE_PAGENATION,
       payload: { totalBooks: numOfBooks, firstBookIndex: firstBookIndex }
     });
+
+     dispatch({type: UPDATE_SEARCH, payload: title})
+
     dispatch(asyncActionFinish());
   } catch (error) {
-  
     dispatch(asyncActionError());
     return error;
   }
 };
 
 export const fetchNextBooks = (title, firstBookIndex) => {
-  fetchBooks(title, firstBookIndex);
+  return fetchBooks(title, firstBookIndex);
 };
 
 export const findBooks = title => {
-
-  fetchBooks(title, 0);
+  return  fetchBooks(title, 0);
 };

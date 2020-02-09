@@ -1,20 +1,22 @@
 import React from "react";
-import { connect } from "react-redux";
-import { fetchBook } from "../store/actions/booksActions";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import Loading from "./Loading";
+import { connect } from "react-redux";
+import { fetchBook } from "../store/actions/booksActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import ToastrMessage from "./ToastrMessage";
+import Loading from "./Loading";
 import NotFound from "./NotFound";
+import Toastr from "./Toastr";
+import './App.css';
 
 class BookDetails extends React.Component {
   state = {
-    error: false
+    error: false,
+    showToastr: false
   };
 
   componentDidMount = async () => {
@@ -32,18 +34,17 @@ class BookDetails extends React.Component {
     // localStorage.setItem("favorites", JSON.stringify(map));
     if (localStorage.getItem("favorites") === null) {
       let books = { [this.props.book.id]: this.props.book };
-      //   let book = {id: this.props.book.id, data: this.props.book.volumeInfo};
-      //   let booksArr = [book];
       localStorage.setItem("favorites", JSON.stringify(books));
     } else {
       let books = JSON.parse(localStorage.getItem("favorites"));
 
       if (!Object.keys(books).includes(this.props.book.id)) {
         books = { ...books, [this.props.book.id]: this.props.book };
-
         localStorage.setItem("favorites", JSON.stringify(books));
       }
     }
+
+    this.setState({ showToastr: true });
   };
 
   renderAuthors = authors => {
@@ -57,34 +58,48 @@ class BookDetails extends React.Component {
     return authorsList.substring(2);
   };
 
+  handleToastrClose = () => {
+    this.setState({ showToastr: false });
+  };
+
+
   render() {
     const { book } = this.props;
 
-    if (this.state.error) return <NotFound />;
+    if (this.state.error) 
+      return <NotFound />;
     if (Object.entries(book).length === 0 || this.props.loading)
-      // if (!this.props.book || !this.props.book.volumeInfo )
       return <Loading />;
 
     return (
-      <Container className="mt-5">
+      <Container className="mt-5" style={{ height: "100vh" }}>
         <Card style={{ backgroundColor: " #ccedd2" }} mb={3}>
           <Row className="no-gutters justify-content-center align-items-center">
-            <Col md={4} className="text-center">
+            <Col
+              md={4}
+              sm={12}
+              className="text-center "
+              style={{ marginTop: "20px", marginBottom: "20px" }}
+            >
               <Card.Img
                 variant="top"
                 style={{ width: "150px" }}
                 src={
                   book.volumeInfo.imageLinks &&
-                  this.props.book.volumeInfo.imageLinks.thumbnail
+                  book.volumeInfo.imageLinks.thumbnail
                 }
               />
             </Col>
-            <Col md={8}>
+            <Col md={8} sm={12}>
               <Card.Body className="details-text">
                 <Card.Title className="details-title">
                   {book.volumeInfo.title}
                   <Button
-                    style={{ float: "right", marginRight: "5px" , backgroundColor:"#7fcd91" }}
+                    style={{
+                      float: "right",
+                      marginRight: "5px",
+                      backgroundColor: "#7fcd91"
+                    }}
                     onClick={this.saveToFavorites}
                   >
                     <FontAwesomeIcon className="brand-logo" icon={faStar} />
@@ -104,6 +119,14 @@ class BookDetails extends React.Component {
             </Col>
           </Row>
         </Card>
+
+        <Toastr
+          type="Success"
+          text="This book has been added to your favorites"
+          show={this.state.showToastr}
+          handleToastrClose={this.handleToastrClose}
+        />
+        
       </Container>
     );
   }

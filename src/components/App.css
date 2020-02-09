@@ -1,6 +1,14 @@
 @import url("https://fonts.googleapis.com/css?family=Asset&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,500,700,800&display=swap");
+
+body{
+  height: 100vh;
+  background: #655c56;
+}
+
+
+
 .brand-name {
   font-family: "Asset", cursive;
   font-size: 2rem;
@@ -41,8 +49,8 @@
 }
 /* /Image by Eli Digital Creative from Pixabay  */
 .header-img {
-  height: 100vh;
-  min-height: 500px;
+  height: 75vh;
+  /* min-height: 500px; */
   background-image: url("../assets/images/books.jpg");
   background-size: cover;
   background-position: center;
@@ -64,6 +72,16 @@
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.9rem !important;
 }
+
+
+/* .card-item{
+   height: "280px" !important;
+   background-color: " #ccedd2";
+}
+.card-img{
+  /* height: "200px" !important;  */
+
+
 .page-link {
   background-color: #655c56 !important;
 
@@ -71,14 +89,21 @@
   border-color: #332f2c !important;
   /* border-color:  #544c47 !important; */
 }
+
+.active-page .page-link{
+  background: #504945 !important;
+}
+
 #root {
   background: #655c56;
   padding-bottom: 4rem;
   width: 100vw;
+  
 }
 
 
-@media (max-width: 600px) {
+
+@media (max-width: 768px) {
   .brand-logo {
     font-size: 1.75rem;
   }
@@ -88,4 +113,15 @@
 
     margin-left: 20px;
   }
+
+  /* .card-item{
+    height: "200px" !important;
+    
+ } */
+/* 
+ .header-img {
+  height: 75px;
+  /* min-height: 100px; */
+ 
+  
 }

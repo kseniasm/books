@@ -1,45 +1,37 @@
-import React, { Fragment, useEffect, useState } from "react";
-import NavBar from "./NavBar";
-import SearchBar from "./SearchBar";
-import BooksList from "./BooksList";
-import BookItem from './BookItem';
+import React from "react";
+import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
+import BookItem from "./BookItem";
+import Loading from "./Loading";
 import "./App.css";
-import Pages from "./Pages";
 
 class Favorites extends React.Component {
 
-    state = {
-        books: []
-    }
-    componentDidMount = () => {
-        let books = Object.entries(JSON.parse(localStorage.getItem('favorites')));
-        console.log(books);
-        
-        this.setState({books})
-      
-    }
-  render() {
-      console.log("FAVORITES: ", this.state.books);
-      if (this.state.books.length === 0)
-        return <div>Loading</div>
-    return (
-        <Container>
-        <Row>
-        {this.state.books.map(book => {
-          return (
-            <Col className="mt-5" key={book.id} xs={12} lg={2} md={6} xl={2}>
-              <BookItem book={book[1]} />
-            </Col>
-          );
-        })}
-      </Row>
-  
-      </Container>
-     
+  state = {
+    books: []
+  };
 
+  componentDidMount = () => {
+    let books = Object.entries(JSON.parse(localStorage.getItem("favorites")));
+
+    this.setState({ books });
+  };
+
+  render() {
+    if (this.state.books.length === 0) return <Loading />;
+    return (
+      <Container>
+        <Row>
+          {this.state.books.map(book => {
+            return (
+              <Col className="mt-5" key={book.id} xs={6} lg={2} md={4} xl={2}>
+                <BookItem book={book[1]} />
+              </Col>
+            );
+          })}
+        </Row>
+      </Container>
     );
   }
 }
