@@ -11,7 +11,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Loading from "./Loading";
 import NotFound from "./NotFound";
 import Toastr from "./Toastr";
-import './App.css';
+import "./App.css";
 
 class BookDetails extends React.Component {
   state = {
@@ -62,12 +62,10 @@ class BookDetails extends React.Component {
     this.setState({ showToastr: false });
   };
 
-
   render() {
     const { book } = this.props;
 
-    if (this.state.error) 
-      return <NotFound />;
+    if (this.state.error) return <NotFound />;
     if (Object.entries(book).length === 0 || this.props.loading)
       return <Loading />;
 
@@ -126,7 +124,6 @@ class BookDetails extends React.Component {
           show={this.state.showToastr}
           handleToastrClose={this.handleToastrClose}
         />
-        
       </Container>
     );
   }

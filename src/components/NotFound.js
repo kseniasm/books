@@ -4,7 +4,6 @@ import Col from "react-bootstrap/Col";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-
 const NotFound = () => {
   return (
     <div className="pt-5" style={{ height: "100vh", marginTop: "5rem" }}>

@@ -8,7 +8,6 @@ import BookItem from "./BookItem";
 import Loading from "./Loading";
 import Pages from "./Pages";
 
-
 class BooksList extends React.Component {
   componentDidMount() {
     this.props.fetchBooks(this.props.searchTerm, 0);
@@ -35,7 +34,11 @@ class BooksList extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { books: state.books, loading: state.loading, searchTerm: state.searchTerm};
+  return {
+    books: state.books,
+    loading: state.loading,
+    searchTerm: state.searchTerm
+  };
 };
 
 const mapDispatchToProps = dispatch => {
