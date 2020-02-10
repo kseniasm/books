@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,500,700,800&display=swap");
 
-body{
+html{
   height: 100vh;
   background: #655c56;
 }
@@ -73,7 +73,17 @@ body{
   font-size: 0.9rem !important;
 }
 
+.close-icon{
+  position: absolute;
+  top: 3px;
+  right: 25px;
+  color: #655c56 !important;
+  font-size: 1.7rem;
+}
 
+.close-icon:hover{
+  cursor: pointer;
+}
 /* .card-item{
    height: "280px" !important;
    background-color: " #ccedd2";

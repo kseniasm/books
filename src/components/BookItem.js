@@ -8,12 +8,12 @@ const BookItem = ({ book }) => {
     <Card
       as={NavLink}
       to={`/books/${book.id}`}
-      style={{ height: "280px", backgroundColor: " #ccedd2" }}
+      style={{ height: "330px", backgroundColor: " #ccedd2" }}
     >
       <Card.Img
         variant="top"
         src={book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail}
-        style={{ height: "200px" }}
+        style={{ height: "240px" }}
       />
       <Card.Body style={{ overflow: "hidden" }}>
         <small className="text-muted">
