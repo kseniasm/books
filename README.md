@@ -1,4 +1,4 @@
-Live Demo [https://kseniasm.github.io/books](https://kseniasm.github.io/books)
+[Live Demo](https://kseniasm.github.io/books)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
